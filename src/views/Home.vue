@@ -120,6 +120,21 @@
 
 
 			},
+            async getDynamic(type0=1) {
+                var params=JSON.stringify({
+                    appid:'dxwebf0a37ed1ae96deef',
+                    timestamp:Date.parse(new Date()),
+                    type:type0,
+                    sign:this.getSIG(`type=${type0}&`),
+                })
+                const {data:ret} = await this.$http.post('/user/getAdminUserPage',params,{username:this.ruleForm2.account,password:this.ruleForm2.checkPass})
+                // console.log(ret)
+                this.dynamicList=ret.data.resultList
+                if(ret.code != 200) return
+                let session = window.sessionStorage
+                session.setItem('token',ret.data.token)
+                this.$router.push('/')
+            },
 			//折叠导航栏
 			collapse:function(){
 				this.collapsed=!this.collapsed;
